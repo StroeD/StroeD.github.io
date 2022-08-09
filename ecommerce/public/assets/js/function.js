@@ -1,6 +1,6 @@
 // Fonction de lecture du JSON
 let readJson = () => {
-    fetch('public/assets/json/untappd.json')
+    fetch('ecommerce/public/assets/json/untappd.json')
     .then(response => {
         return response.json();
     })
