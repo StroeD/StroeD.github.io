@@ -1,6 +1,6 @@
 // Fonction de lecture du JSON
 let readJson = () => {
-    fetch('/public/assets/json/untappd.json')
+    fetch('public/assets/json/untappd.json')
     .then(response => {
         return response.json();
     })
@@ -26,19 +26,19 @@ let readJson = () => {
 }
 
 // Fonction de check si l'image est disponible
-function imageExists(image_url){
-    var http = new XMLHttpRequest();
-    http.open('GET', image_url, false);
-    http.send();
-    return http.status != 403;
-}
+// function imageExists(image_url){
+//     var http = new XMLHttpRequest();
+//     http.open('GET', image_url, false);
+//     http.send();
+//     return http.status != 403;
+// }
 
 // Fonction affichage de toutes les bières contenues dans le JSON / Tableau d'objet
 let displayAllBeers = () => {
     beersArray.forEach(jeanlouis=>{
 
         //if((imageExists(jeanlouis.beer.beer_label)) && (jeanlouis.beer.beer_label != "https://untappd.akamaized.net/site/assets/images/temp/badge-beer-default.png")) {
-        if(imageExists(jeanlouis.beer.beer_label)) {
+        // if(imageExists(jeanlouis.beer.beer_label)) {
             document.getElementById('product').innerHTML +=
                 `<div class="col-6 col-lg-2 col-md-3 beer">
                     <img class="beerLabel" src="${jeanlouis.beer.beer_label}">
@@ -65,7 +65,8 @@ let displayAllBeers = () => {
                     </div>
                 </div>`
         }
-    })
+    // 
+    )
 
 }
 
