@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Formulaire Dummy - .gouv.fr Style</title>
+	<link href="https://fonts.googleapis.com/css2?family=Marianne:wght@400;700&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Marianne', Arial, sans-serif;
+			background-color: #f5f6fa;
+			margin: 0;
+			padding: 0;
+		}
+		.fr-header {
+			background: #000091;
+			color: #fff;
+			padding: 1.5rem 0;
+			text-align: center;
+		}
+		.fr-container {
+			max-width: 600px;
+			margin: 2rem auto;
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+			padding: 2rem;
+		}
+		h1 {
+			font-size: 2rem;
+			margin-bottom: 1rem;
+		}
+		label {
+			display: block;
+			margin-bottom: 0.5rem;
+			font-weight: 700;
+		}
+		input[type="text"], input[type="email"], input[type="file"] {
+			width: 100%;
+			padding: 0.5rem;
+			margin-bottom: 1.5rem;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			font-size: 1rem;
+		}
+		button {
+			background: #000091;
+			color: #fff;
+			border: none;
+			padding: 0.75rem 2rem;
+			border-radius: 4px;
+			font-size: 1rem;
+			cursor: pointer;
+			font-weight: 700;
+		}
+		button:hover {
+			background: #3a3a3a;
+		}
+		.fr-footer {
+			text-align: center;
+			color: #666;
+			font-size: 0.9rem;
+			margin-top: 2rem;
+			padding-bottom: 1rem;
+		}
+	</style>
+</head>
+<body>
+	<header class="fr-header">
+		<img src="https://www.gouvernement.fr/sites/default/files/2021-07/logo_gouvfr_blanc.svg" alt="République Française" style="height: 48px; vertical-align: middle; margin-right: 1rem;">
+		<span style="font-size: 1.5rem; font-weight: 700;">Formulaire Dummy</span>
+	</header>
+	<main>
+		<div class="fr-container">
+			<h1>Déposer un document</h1>
+			<form>
+				<label for="nom">Nom</label>
+				<input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+
+				<label for="email">Email</label>
+				<input type="email" id="email" name="email" placeholder="Votre email" required>
+
+				<label for="fichier">Téléverser un fichier</label>
+				<input type="file" id="fichier" name="fichier" required>
+
+				<button type="submit">Envoyer</button>
+			</form>
+			<div id="pdf-preview" style="margin-top:2rem;"></div>
+			<script>
+			document.querySelector('form').addEventListener('submit', function(e) {
+				e.preventDefault();
+				const fileInput = document.getElementById('fichier');
+				const file = fileInput.files[0];
+				if (file && file.type === 'application/pdf') {
+					const reader = new FileReader();
+					reader.onload = function(event) {
+						// Store base64 PDF in sessionStorage
+						sessionStorage.setItem('uploadedPDF', event.target.result);
+						showPDFPreview(event.target.result);
+					};
+					reader.readAsDataURL(file);
+				} else {
+					alert('Veuillez téléverser un fichier PDF.');
+				}
+			});
+
+			function showPDFPreview(dataUrl) {
+				const preview = document.getElementById('pdf-preview');
+				preview.innerHTML = `<h2>Aperçu du PDF :</h2><iframe src='${dataUrl}' width='100%' height='400px' style='border:1px solid #ddd;'></iframe>`;
+			}
+
+			// Show preview if PDF already in sessionStorage (e.g. after reload)
+			const storedPDF = sessionStorage.getItem('uploadedPDF');
+			if (storedPDF) {
+				showPDFPreview(storedPDF);
+			}
+			</script>
+		</div>
+	</main>
+	<footer class="fr-footer">
+		<span>Inspiré par les sites officiels .gouv.fr - Ceci est un formulaire fictif.</span>
+	</footer>
+</body>
+</html>
