@@ -99,12 +99,95 @@
 						// Store base64 PDF in sessionStorage
 						sessionStorage.setItem('uploadedPDF', event.target.result);
 						showPDFPreview(event.target.result);
+						celebrate();
 					};
 					reader.readAsDataURL(file);
 				} else {
 					alert('Veuillez téléverser un fichier PDF.');
 				}
 			});
+			// Confetti and shake effect
+			function celebrate() {
+				// Shake effect
+				document.body.classList.add('shake');
+				// Confetti
+				launchConfetti();
+				// Félicitations message
+				const msg = document.createElement('div');
+				msg.id = 'felicitations-msg';
+				msg.textContent = 'Félicitations!';
+				msg.style.position = 'fixed';
+				msg.style.top = '40%';
+				msg.style.left = '50%';
+				msg.style.transform = 'translate(-50%, -50%)';
+				msg.style.background = '#fff';
+				msg.style.color = '#000091';
+				msg.style.fontSize = '2.5rem';
+				msg.style.fontWeight = 'bold';
+				msg.style.padding = '2rem 3rem';
+				msg.style.borderRadius = '16px';
+				msg.style.boxShadow = '0 4px 24px rgba(0,0,0,0.15)';
+				msg.style.zIndex = '9999';
+				document.body.appendChild(msg);
+				setTimeout(() => {
+					document.body.classList.remove('shake');
+					msg.remove();
+					removeConfetti();
+				}, 3000);
+			}
+
+			// Add shake animation CSS
+			const shakeStyle = document.createElement('style');
+			shakeStyle.innerHTML = `
+			@keyframes shake {
+				0% { transform: translate(0px, 0px); }
+				20% { transform: translate(-10px, 0px); }
+				40% { transform: translate(10px, 0px); }
+				60% { transform: translate(-10px, 0px); }
+				80% { transform: translate(10px, 0px); }
+				100% { transform: translate(0px, 0px); }
+			}
+			.shake {
+				animation: shake 0.5s;
+			}
+			`;
+			document.head.appendChild(shakeStyle);
+
+			// Confetti logic
+			function launchConfetti() {
+				removeConfetti();
+				for (let i = 0; i < 80; i++) {
+					const conf = document.createElement('div');
+					conf.className = 'confetti';
+					conf.style.position = 'fixed';
+					conf.style.top = '-20px';
+					conf.style.left = Math.random() * 100 + 'vw';
+					conf.style.width = '12px';
+					conf.style.height = '12px';
+					conf.style.background = randomColor();
+					conf.style.borderRadius = '50%';
+					conf.style.zIndex = '9998';
+					conf.style.opacity = '0.85';
+					conf.style.pointerEvents = 'none';
+					// Random fall duration and rotation
+					const duration = 1.5 + Math.random() * 2.5; // 1.5s to 4s
+					const rotate = Math.random() * 360;
+					conf.style.transition = `top ${duration}s linear, transform ${duration}s linear`;
+					conf.style.transform = `rotate(${rotate}deg)`;
+					document.body.appendChild(conf);
+					setTimeout(() => {
+						conf.style.top = '100vh';
+						conf.style.transform = `rotate(${rotate + 720}deg)`;
+					}, 10);
+				}
+			}
+			function removeConfetti() {
+				document.querySelectorAll('.confetti').forEach(e => e.remove());
+			}
+			function randomColor() {
+				const colors = ['#000091', '#e2001a', '#00bfff', '#ffd700', '#32cd32', '#ff69b4'];
+				return colors[Math.floor(Math.random() * colors.length)];
+			}
 
 			document.getElementById('clear-session').addEventListener('click', function() {
 				sessionStorage.removeItem('uploadedPDF');
