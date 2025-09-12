@@ -107,30 +107,31 @@
     <img src="public/assets/img/pngtree-halloween-ghost-jack-olantern-png-image_6127297.png" class="floating-img img3" alt="Ghost">
     <div class="container">
         <h1 id="level-title">Chasse au Trésor Halloween</h1>
-        <div class="riddle" id="riddle-text"></div>
-        <input type="text" id="answer" placeholder="Votre réponse...">
-        <br>
-        <button onclick="checkAnswer()">Valider</button>
-        <div class="hint" id="hint"></div>
-        <div class="wrong" id="wrong-msg">Mauvaise réponse, essaie encore !</div>
-        <div class="wrong-hint" id="wrong-hint">Astuce : le nom de la page est un indice !</div>
+    <div class="riddle" id="riddle-text"></div>
+    <div id="choices" style="margin: 1.5rem 0;"></div>
+    <div class="hint" id="hint"></div>
+    <div class="wrong" id="wrong-msg">Mauvaise réponse, essaie encore !</div>
+    <div class="wrong-hint" id="wrong-hint">Astuce : le nom de la page est un indice !</div>
     </div>
     <script>
-    // Define levels
+    // Define levels with choices
     const levels = {
         'Minecraft': {
             riddle: "Je viens d'un jeu, je suis vert et je trouble les nuits paisibles en explosant. Qui suis-je ?",
             answer: "CREEPER",
+            choices: ["ZOMBIE", "CREEPER", "SORCIÈRE", "FANTÔME"],
             hint: "Bravo ! Voici ton indice pour le prochain QR code :<br><b>Près du vieux chêne, là où les ombres dansent.</b>"
         },
         'Witch': {
             riddle: "Je vole sur un balai, j'ai un chapeau pointu et je prépare des potions. Qui suis-je ?",
             answer: "SORCIÈRE",
+            choices: ["SORCIÈRE", "CHAUVE-SOURIS", "CREEPER", "FANTÔME"],
             hint: "Bravo ! L'indice suivant :<br><b>À côté du banc près du lampadaire.</b>"
         },
         'Ghost': {
             riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
             answer: "FANTÔME",
+            choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
             hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
         }
         // Add more levels as needed
@@ -152,10 +153,28 @@
     document.getElementById('wrong-msg').style.display = 'none';
     document.getElementById('wrong-hint').style.display = 'none';
 
+    // Render choices
+    const choicesDiv = document.getElementById('choices');
+    choicesDiv.innerHTML = '';
+    data.choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = choice;
+        btn.className = 'choice-btn';
+        btn.style.margin = '0.5rem';
+        btn.style.padding = '0.7rem 1.5rem';
+        btn.style.fontSize = '1.1rem';
+        btn.style.borderRadius = '8px';
+        btn.style.border = 'none';
+        btn.style.background = '#222';
+        btn.style.color = '#fff';
+        btn.style.cursor = 'pointer';
+        btn.onclick = () => checkAnswer(choice);
+        choicesDiv.appendChild(btn);
+    });
+
     let wrongCount = 0;
-    function checkAnswer() {
-        const val = document.getElementById('answer').value.trim().toUpperCase();
-        if(val === data.answer) {
+    function checkAnswer(selected) {
+        if(selected.toUpperCase() === data.answer) {
             document.getElementById('hint').style.display = 'block';
             document.getElementById('wrong-msg').style.display = 'none';
             document.getElementById('wrong-hint').style.display = 'none';
