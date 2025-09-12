@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chasse au Trésor Halloween</title>
     <style>
+        .choice-btn {
+            background: #b34700 !important;
+            box-shadow: 0 0 8px 2px #ff6600 inset;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .choice-btn:hover {
+            transform: scale(1.08) rotate(-2deg);
+            box-shadow: 0 0 16px 4px #ff6600, 0 0 8px 2px #b34700 inset;
+        }
+        .choice-btn:active {
+            animation: shake-btn 0.3s;
+        }
+        @keyframes shake-btn {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(4px); }
+            75% { transform: translateX(-4px); }
+            100% { transform: translateX(0); }
+        }
         html, body {
             margin: 0;
             padding: 0;
@@ -31,7 +50,7 @@
             50% { transform: translateY(-30px) scale(1.1); }
         }
         .container {
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.4);
             color: #fff;
             max-width: 400px;
             margin: 80px auto;
@@ -102,6 +121,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="lockout-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#b34700 0%,#ff3300 100%);opacity:1;z-index:99999;justify-content:center;align-items:center;flex-direction:column;color:#ffd700;font-family:'Creepster',cursive;font-size:2rem;transition:opacity 1s;">
+        <div>Réponse incorrecte !</div>
+        <div style="font-size:3rem;margin:1.5rem 0;">Attends <span id="lockout-counter">20</span> secondes...</div>
+    </div>
     <img src="public/assets/img/439-4398193_cute-halloween-cartoon-clipart-bat-halloween.png" class="floating-img img1" alt="Bat">
     <img src="public/assets/img/halloween-cute-cat-3712063_1280.webp" class="floating-img img2" alt="Cat">
     <img src="public/assets/img/pngtree-halloween-ghost-jack-olantern-png-image_6127297.png" class="floating-img img3" alt="Ghost">
@@ -173,7 +196,9 @@
     });
 
     let wrongCount = 0;
+    let lockoutActive = false;
     function checkAnswer(selected) {
+        if(lockoutActive) return;
         if(selected.toUpperCase() === data.answer) {
             document.getElementById('hint').style.display = 'block';
             document.getElementById('wrong-msg').style.display = 'none';
@@ -188,7 +213,32 @@
                 document.getElementById('wrong-hint').style.display = 'none';
             }
             document.getElementById('wrong-msg').style.display = 'block';
+            startLockout();
         }
+    }
+
+    function startLockout() {
+        lockoutActive = true;
+        const overlay = document.getElementById('lockout-overlay');
+        const counter = document.getElementById('lockout-counter');
+        let timeLeft = 20;
+        overlay.style.opacity = '1';
+        overlay.style.display = 'flex';
+        counter.textContent = timeLeft;
+        const interval = setInterval(() => {
+            timeLeft--;
+            counter.textContent = timeLeft;
+            // Fade out gradually in last 5 seconds
+            if(timeLeft <= 5) {
+                overlay.style.opacity = String(0.2 + 0.16 * timeLeft);
+            }
+            if(timeLeft <= 0) {
+                clearInterval(interval);
+                overlay.style.display = 'none';
+                overlay.style.opacity = '1';
+                lockoutActive = false;
+            }
+        }, 1000);
     }
     </script>
 </body>
