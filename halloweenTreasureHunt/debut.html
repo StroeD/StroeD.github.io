@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chasse au Trésor Halloween</title>
+    <style>
+        .choice-btn {
+            background: #b34700 !important;
+            box-shadow: 0 0 8px 2px #ff6600 inset;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .choice-btn:hover {
+            transform: scale(1.08) rotate(-2deg);
+            box-shadow: 0 0 16px 4px #ff6600, 0 0 8px 2px #b34700 inset;
+        }
+        .choice-btn:active {
+            animation: shake-btn 0.3s;
+        }
+        @keyframes shake-btn {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(4px); }
+            75% { transform: translateX(-4px); }
+            100% { transform: translateX(0); }
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: 'Creepster', 'Comic Sans MS', cursive, sans-serif;
+            background: url('public/assets/img/Background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .floating-img {
+            position: absolute;
+            width: 120px;
+            animation: float 8s ease-in-out infinite;
+            z-index: 2;
+        }
+        .img1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .img4 { top: 60%; left: 20%; animation-delay: 2s; }
+        .img2 { top: 70%; left: 50%; animation-delay: 2s; }
+        .img3 { top: 30%; left: 60%; animation-delay: 4s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+        .container {
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            max-width: 400px;
+            margin: 80px auto;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            text-align: center;
+            position: relative;
+            z-index: 3;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        .riddle {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        input[type="text"] {
+            padding: 0.5rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 1rem;
+            width: 80%;
+        }
+        button {
+            background: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .hint {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: #ffd700;
+            background: rgba(0,0,0,0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            display: block;
+        }
+        .wrong {
+            margin-top:1rem;
+            color:#ff3300;
+            font-weight:bold;
+            background:rgba(0,0,0,0.5);
+            padding:0.7rem;
+            border-radius:8px;
+            display:none;
+        }
+        .wrong-hint {
+            margin-top:1rem;
+            color:#00ff99;
+            font-weight:bold;
+            background:rgba(0,0,0,0.5);
+            padding:0.7rem;
+            border-radius:8px;
+            display:none;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="lockout-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#b34700 0%,#ff3300 100%);opacity:1;z-index:99999;justify-content:center;align-items:center;flex-direction:column;color:#ffd700;font-family:'Creepster',cursive;font-size:2rem;transition:opacity 1s;">
+        <div>Réponse incorrecte !</div>
+        <div style="font-size:2.5rem;margin:1.5rem 0;">Attends <span id="lockout-counter">20</span> secondes...</div>
+    </div>
+    <img src="public/assets/img/439-4398193_cute-halloween-cartoon-clipart-bat-halloween.png" class="floating-img img1" alt="Bat">
+    <img src="public/assets/img/halloween-cute-cat-3712063_1280.webp" class="floating-img img2" alt="Cat">
+    <img src="public/assets/img/pngtree-halloween-ghost-jack-olantern-png-image_6127297.png" class="floating-img img3" alt="Ghost">
+    <img src="public/assets/img/cclvd.png" class="floating-img img4" alt="CCLVD">
+    <div class="container">
+        <h1 id="level-title">Chasse au Trésor Halloween</h1>
+    <div class="riddle" id="riddle-text"></div>
+    <div id="choices" style="margin: 1.5rem 0;"></div>
+    <div class="hint">1er indice: Près d'une plante qu'on cuit vapeur puis qu'on effeuille</div>
+    </div>
+
+</body>
+</html>
