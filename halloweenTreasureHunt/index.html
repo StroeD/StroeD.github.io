@@ -145,55 +145,55 @@
             riddle: "Je viens d'un jeu, je suis vert et je trouble les nuits paisibles en explosant. Qui suis-je ?",
             answer: "CREEPER",
             choices: ["ZOMBIE", "CREEPER", "SORCIÈRE", "FANTÔME"],
-            hint: "Bravo ! Voici ton indice pour le prochain QR code :<br><b>Près du vieux chêne, là où les ombres dansent.</b>"
+            hint: "Bravo ! Voici votre deuxième indice :<br><b>Dissimulé, sous un clapet</b>"
         },
-        '2Witch': {
-            riddle: "Je vole sur un balai, j'ai un chapeau pointu et je prépare des potions. Qui suis-je ?",
-            answer: "SORCIÈRE",
-            choices: ["SORCIÈRE", "CHAUVE-SOURIS", "CREEPER", "FANTÔME"],
-            hint: "Bravo ! L'indice suivant :<br><b>À côté du banc près du lampadaire.</b>"
+        '2Fortnite': {
+            riddle: "Je suis un jeu en ligne, dans lequel les joueurs s'affrontent pour être le dernier survivant. Chaque année, un événement spécial a lieu à Halloween. Qui suis-je?",
+            answer: "FORTNITE",
+            choices: ["SKYRIM", "SOLITAIRE", "FORTNITE", "ENDIVES AU JAMBON"],
+            hint: "Bravo ! Voici votre troisième indice :<br><b>Près d'une bande dessinée de sensibilisation</b>"
         },
-        '3Ghost': {
-            riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
-            answer: "FANTÔME",
+        '3MotDePasse': {
+            riddle: "Je dois souvent faire entre 8 et 12 caractères, contenir des lettres, des chiffres et des caractères spéciaux. Qui suis-je ?",
+            answer: "MOT DE PASSE",
             choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
-            hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
+            hint: "Bravo ! Voici votre quatrième indice :<br><b>Quelqu'un aurait pu l'oublier ici en contemplant les kayaks sur l'eau</b>"
         },
         '4': {
             riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
             answer: "FANTÔME",
             choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
-            hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
+            hint: "Bravo ! Voici votre cinquième indice :<br><b>Derrière le toucher de la peur</b>"
         },
         '5': {
             riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
             answer: "FANTÔME",
             choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
-            hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
+            hint: "Bravo ! Voici votre sixième indice :<br><b>Peut-être que même sans muscles, les squelettes s'y entraînent aussi..?</b>"
         },
         '6': {
             riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
             answer: "FANTÔME",
             choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
-            hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
+            hint: "Bravo ! Voici votre septième indice :<br><b>Sur un ancêtre qui trône fièrement entre un barnum, un parcours et des châteaux</b>"
         },
         '7': {
             riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
             answer: "FANTÔME",
             choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
-            hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
+            hint: "Bravo ! Voici votre huitième indice :<br><b>Certains l'ont aperçu en attendant éternellement le bus fantôme...</b>"
         },
         '8': {
             riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
             answer: "FANTÔME",
             choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
-            hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
+            hint: "Bravo ! Voici votre neuvième indice :<br><b>Sur le côté extérieur d'une structure où vous pourriez bien vous perdre</b>"
         },
         '9': {
             riddle: "Je suis blanc, je hante les maisons et je fais peur la nuit. Qui suis-je ?",
             answer: "FANTÔME",
             choices: ["SORCIÈRE", "CHAUVE-SOURIS", "FANTÔME", "CREEPER"],
-            hint: "Bravo ! L'indice suivant :<br><b>Près du portail en fer.</b>"
+            hint: "Bravo ! Le mot de passe pour votre niveau est: \"Fantôme et bave de crapaud\""
         },
     
         // Add more levels as needed
@@ -202,12 +202,12 @@
     // Get level from URL
     function getLevel() {
         const params = new URLSearchParams(window.location.search);
-        return params.get('level') || 'Minecraft';
+        return params.get('level') || '1Minecraft';
     }
 
     // Set up page
     const level = getLevel();
-    const data = levels[level] || levels['Minecraft'];
+    const data = levels[level] || levels['1Minecraft'];
     document.getElementById('level-title').textContent = `Chasse au Trésor Halloween`;
     document.getElementById('riddle-text').textContent = data.riddle;
     document.getElementById('hint').innerHTML = data.hint;
