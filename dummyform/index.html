@@ -78,8 +78,10 @@
 				<label for="nom">Nom</label>
 				<input type="text" id="nom" name="nom" placeholder="Votre nom" required>
 
-				<label for="ss">Numéro de sécurité sociale (13 chiffres)</label>
-				<input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+				<div class="form-group">
+					<label for="secu">Numéro de sécurité sociale</label>
+					<input type="text" id="secu" name="secu" maxlength="20" placeholder="X XX XX XX XXX XXX" autocomplete="off">
+				</div>
 
 				<label for="email">Email</label>
 				<input type="email" id="email" name="email" placeholder="Votre email" required>
@@ -88,8 +90,20 @@
 				<input type="text" id="nom" name="nom" placeholder="Votre nom" required>
 
 
-				<label for="fichier">Téléverser un fichier</label>
+				<label for="fichier">Justificatif de domicile</label>
 				<input type="file" id="fichier" name="fichier" required>
+
+				<label for="id-upload">Pièce d'identité</label>
+				<input type="file" id="id-upload" name="id-upload" accept=".pdf,.jpg,.jpeg,.png" required>
+
+				<label for="carte-vitale-upload">Carte Vitale</label>
+				<input type="file" id="carte-vitale-upload" name="carte-vitale-upload" accept=".pdf,.jpg,.jpeg,.png" required>
+
+				<div style="color:#b34700;font-size:1rem;margin-bottom:1.5rem;font-weight:600;">
+					Évitez les fichiers trop volumineux&nbsp;: ces fichiers ne doivent pas dépasser 8Mo
+				</div>
+
+
 
 				<button type="submit">Envoyer</button>
 				<button type="button" id="clear-session" style="float:right;background:#e2001a;">Vider</button>
@@ -97,6 +111,18 @@
 			</form>
 			<div id="pdf-preview" style="margin-top:2rem;"></div>
 			<script>
+			// Format numéro de sécurité sociale as X XX XX XX XXX XXX
+			document.getElementById('secu').addEventListener('input', function(e) {
+				let val = e.target.value.replace(/\D/g, '');
+				let formatted = '';
+				if(val.length > 0) formatted += val[0];
+				if(val.length > 1) formatted += ' ' + val.slice(1,3);
+				if(val.length > 3) formatted += ' ' + val.slice(3,5);
+				if(val.length > 5) formatted += ' ' + val.slice(5,7);
+				if(val.length > 7) formatted += ' ' + val.slice(7,10);
+				if(val.length > 10) formatted += ' ' + val.slice(10,13);
+				e.target.value = formatted.trim();
+			});
 			document.querySelector('form').addEventListener('submit', function(e) {
 				e.preventDefault();
 				const fileInput = document.getElementById('fichier');
