@@ -137,6 +137,10 @@
     <div class="hint" id="hint"></div>
     <div class="wrong" id="wrong-msg">Mauvaise réponse, essaie encore !</div>
     <div class="wrong-hint" id="wrong-hint">Astuce : le nom de la page est un indice !</div>
+    <div id="map-container" style="margin-top:1rem;display:none;">
+        <div style="color:#ffd700;font-weight:700;margin-bottom:0.5rem;text-align:center;">Carte — indice visuel</div>
+        <img id="map-image" src="" alt="Carte indice" style="width:100%;border-radius:8px;border:2px solid rgba(255,215,0,0.15);box-shadow:0 6px 18px rgba(0,0,0,0.4);">
+    </div>
     </div>
     <script>
     // Define levels with choices
@@ -215,6 +219,23 @@
     document.getElementById('wrong-msg').style.display = 'none';
     document.getElementById('wrong-hint').style.display = 'none';
 
+    // Map path for current level (will only be shown after correct answer)
+    (function prepareMapForLevel(){
+        let mapNum = parseInt(level, 10);
+        if (isNaN(mapNum)) {
+            // fallback: find index among keys
+            const keys = Object.keys(levels);
+            const idx = keys.indexOf(level);
+            if (idx >= 0) mapNum = idx + 1;
+        }
+        if (mapNum >= 1 && mapNum <= 9) {
+            // store path for later display once the user answers correctly
+            window.currentMapPath = `public/assets/img/Maps/map${mapNum}.png`;
+        } else {
+            window.currentMapPath = null;
+        }
+    })();
+
     // Render choices
     const choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
@@ -243,6 +264,14 @@
             document.getElementById('wrong-msg').style.display = 'none';
             document.getElementById('wrong-hint').style.display = 'none';
             wrongCount = 0;
+            // Show map (if prepared) when the user answers correctly
+            if (window.currentMapPath) {
+                const img = document.getElementById('map-image');
+                img.src = window.currentMapPath;
+                document.getElementById('map-container').style.display = 'block';
+                img.style.cursor = 'pointer';
+                img.onclick = () => window.open(window.currentMapPath, '_blank');
+            }
         } else {
             document.getElementById('hint').style.display = 'none';
             wrongCount++;
